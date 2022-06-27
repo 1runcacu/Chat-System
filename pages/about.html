@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="/pages/css/about.css">
+</head>
+<body onbeforeunload="checkLeave()">
+  <div class="wrapper">
+     about页面内容
+  </div> 
+  <button id="test">click</button>
+</body>
+<script>
+    // window.onbeforeunload = function (e) {
+    //     var e = e || window.event,
+    //     dialogText = '页面未保存，确定离开吗？';
+    //     // 兼容IE8和Firefox 4之前的版本
+    //     if (e) {
+    //         e.returnValue = dialogText;
+    //     };
+    //     return dialogText;
+    // };
+    function checkLeave(){
+        alert("欢迎下次再来！");
+        console.log("aaa");
+    }
+</script>
+</html>

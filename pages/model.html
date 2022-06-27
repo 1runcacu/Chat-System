@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="./css/about.css">
+  <style>
+
+html,body{
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.mWins *{
+  user-select:none;
+}
+
+.head{
+    background-color: rgb(117, 120, 122);
+}
+
+.end{
+    color:black;
+}
+.end:hover{
+    background-color: rgb(219, 11, 11);
+    cursor:default;
+    color: azure;
+}
+
+.scrollView{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.scrollView::-webkit-scrollbar,#taskListBox>div::-webkit-scrollbar,select::-webkit-scrollbar{
+    width: 6px;
+}
+.scrollView::-webkit-scrollbar-track,#taskListBox>div::-webkit-scrollbar-track,select::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+}
+.scrollView::-webkit-scrollbar-thumb,#taskListBox>div::-webkit-scrollbar-thumb,select::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+
+  </style>
+</head>
+<body>
+  <div id="test">
+  </div>
+  
+    <!-- <p>aaaa</p> -->
+</body>
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script src="./js/core.js"></script>
+<script>
+
+SysInit();
+
+const signal = new Signal();
+const controller = new Controller();
+const frame = new Toast();
+
+controller.register(frame);
+// controller.register(new Frame());
+// controller.register(new Frame());
+// controller.register(new Frame());
+// controller.register(new Frame());
+// controller.register(new Frame());
+// controller.register(new Frame());
+// controller.register(new Frame());
+// controller.register(new Frame());
+
+// let msg={
+//     msg:"哈哈哈~",
+//     to:"Controller",
+//     id:"broadcast"
+// }
+// Channel.post(msg);
+// frame.x=1;
+
+</script>
+</html>

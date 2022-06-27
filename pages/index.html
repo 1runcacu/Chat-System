@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>奇怪的数数</title>
+    <style>
+.head{
+    background-color: rgb(117, 120, 122);
+}
+.scrollView{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.scrollView::-webkit-scrollbar,#taskListBox>div::-webkit-scrollbar,select::-webkit-scrollbar{
+    width: 6px;
+}
+.scrollView::-webkit-scrollbar-track,#taskListBox>div::-webkit-scrollbar-track,select::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+}
+.scrollView::-webkit-scrollbar-thumb,#taskListBox>div::-webkit-scrollbar-thumb,select::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+#taskListBox{
+    flex: 1;
+    position: relative;
+}
+#taskListBox>div{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    /* background-color: white; */
+    overflow-y: auto;
+}
+    </style>
+    </head>
+<body>
+
+</body>
+<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script>
+
+async function Distributed_Search(){
+    let pid=progress_manager.makeProgress("分布式计算",0);
+    let taskNum=1;
+    let PackList=[];
+    //180180
+    let max=180280;
+    let min=180000n;
+    let step=280n/100n;
+    for(let i=0,start=min;i<100;i++,start+=step){
+        PackList.push({
+            min:start,
+            max:start+step,
+            L:1
+        });
+    }
+    return await new Promise(resolve=>{
+        let args={};
+        (new DistributedThread(()=>{
+            let dl=1;
+            let Tid="";
+            let result=false;
+            function run(Pack){
+                let {min,max}=Pack;
+                for(let n=min;n<max;n++){
+                    let count=1;
+                    let N2=n+n;
+                    for(let a=n+1n;a<N2;a++){
+                        if((a*n)%(a-n)==0n){
+                            count++;
+                        }
+                    }
+                    if(count>1000){
+                        result=n;
+                        break;
+                    }
+                }
+                console.log(min,max,result);
+                postMessage({Pack:{result},flag:false,id:Tid});
+                if(result){
+                    postMessage({Pack:{result},flag:true,id:Tid});
+                }
+            }
+            onmessage=({data:{Pack,union,cmd,id,mdl}})=>{
+                if(!cmd){
+                    postMessage({
+                        flag:true,
+                        id
+                    });
+                    self.close();
+                }else if(mdl){
+                    dl=mdl+Math.random()*mdl/2;
+                }else{
+                    Tid=id;
+                    dl=union.delay+Math.random()*union.delay/2;
+                    run(Pack);
+                }
+            }
+        },(p)=>{
+            let count=0,size=0;
+            for(let i in args){
+                count+=args[i].count;
+                size+=args[i].size;
+            }
+            let v=(size==0)?1:count/size;
+            progress_manager.setProgress(pid,v);
+            // console.log(p.result);
+            if(p.result){
+                resolve(p.result);
+                KillAllThread();
+            }
+            p=null;
+        },100,pid))(PackList,{
+                delay:Build.Setting.DistributedDelay
+            },args,"L").then(()=>{
+                progress_manager.finishProgress(pid);                
+        });
+    });
+}
+
+
+wins.msgBox("快点击确定~","嗷呜",{bottom:100}).then(()=>{
+    wins.Toast("开始计算");
+    Distributed_Search().then(p=>{
+        wins.Toast("算完啦");
+        wins.msgBox(`最后计算结果为:${p}`,"计算结果");
+    })
+});
+
+
+</script>
+</html>

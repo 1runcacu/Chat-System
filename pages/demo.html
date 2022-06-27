@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>websocket测试</title>		
+	</head>
+	<body onbeforeunload="refresh">
+		<button type="button" id="btn" >按钮</button>
+		<button type="button" id="btn1" onclick="refresh">刷新</button>
+		<input type="text" name="" id="demo" value="" />
+		<div id="res">接收到的服务器端消息显示区域</div>
+	</body>
+</html>
+<script src="/pages/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	(function refresh(){
+		// 打开一个 web socket，设定websocket服务器地址和端口
+		const ws = new WebSocket("ws://127.0.0.1:3000");
+		//开启连接open后客户端处理方法
+		ws.onopen = function(){
+			// Web Socket 已连接上，在页面中显示消息
+			document.getElementById('res').innerHTML="当前客户端已经连接到websocket服务器";
+		};
+		// 点击按钮时给websocket服务器端发送消息
+		$('#btn').click(function(){
+			var value = $('#demo').val();
+			try{
+				ws.send(value);
+			}catch(error){
+				console.error();
+				ws.close();
+			};
+		});
+		// 接收消息后客户端处理方法
+		ws.onmessage = evt=>{ 
+			console.log(evt.data);
+			$('#res').text(evt.data);
+		};
+		// 关闭websocket
+		ws.onclose = ()=>{ 
+			// alert("连接已关闭..."); 
+			console.log("连接已关闭...");
+		};
+	})();
+</script>
